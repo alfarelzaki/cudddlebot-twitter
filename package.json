@@ -2,7 +2,7 @@
   "name": "everyoneisloved",
   "version": "1.0.0",
   "description": "a package for making a twitter bot to cheer up everyone!",
-  "main": "everyoneisloved.js",
+  "main": "cudddlebot.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -14,5 +14,8 @@
     "cheer"
   ],
   "author": "alfarelzaki",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "twit": "^2.2.11"
+  }
 }
