@@ -1,0 +1,18 @@
+{
+  "name": "everyoneisloved",
+  "version": "1.0.0",
+  "description": "a package for making a twitter bot to cheer up everyone!",
+  "main": "everyoneisloved.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "quotes",
+    "happy",
+    "stressed",
+    "sad",
+    "cheer"
+  ],
+  "author": "alfarelzaki",
+  "license": "ISC"
+}
