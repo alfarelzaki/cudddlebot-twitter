@@ -20,8 +20,10 @@ function onAuthenticated(err){
 
 const termsToTrack = [
     'merasa gagal',
-    'sedih banget',
-    'stress gue'
+    'sedih banget gue',
+    'stress gue',
+    'gue sedih banget',
+    'hidup gue ancur'
 ]
 
 const bahasa = ['en', 'in']
@@ -113,3 +115,5 @@ function onTweeted(err) {
     }
   }
 }
+
+setInterval(sendReply, 300000);
