@@ -1,6 +1,6 @@
 // define dependencies | mendeklarasikan dependencies
 const twit = require('twit')
-const config = require('../config')
+const config = require('./config')
 var T = new twit(config)
 
 T.get('account/verify_credentials', {
