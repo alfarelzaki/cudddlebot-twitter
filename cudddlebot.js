@@ -1,7 +1,8 @@
 // define dependencies | mendeklarasikan dependencies
 const twit = require('twit')
 const config = require('./config')
-var T = new twit(config)
+const bahasa = ['en', 'in']
+const T = new twit(config)
 
 T.get('account/verify_credentials', {
     include_entities: false,
@@ -26,7 +27,6 @@ const termsToTrack = [
     'hidup gue ancur'
 ]
 
-const bahasa = ['en', 'in']
 function onAuthenticated(err){
     var stream = T.stream('statuses/filter', {track:termsToTrack, tweet_mode:'extended', lang:bahasa})
 
@@ -48,7 +48,7 @@ function onAuthenticated(err){
         ){
         // If the tweet matches all the above criteria, we send our reply
         // Note - here the tweet parameter refers to the tweet we're replying to.
-                sendReply(tweet)
+            sendReply(tweet)
         }
     })
 }
@@ -69,20 +69,19 @@ const replies = [
     'nafas sebentar, apa sih yang dikejar -nkcthi'
 
 ]
-        
+
 function sendReply(tweet){
-        
-// get the screen name of the twitter account - we'll need to prepend our response with this in order to reply.
-var screenName = tweet.user.screen_name
+    // get the screen name of the twitter account - we'll need to prepend our response with this in order to reply.
+    var screenName = tweet.user.screen_name
+                
+    // Now we create the reply - the handle + a random reply from our set of predefined replies + the instructions on how to quit
+    var response = '@' + screenName + ' ' + replies[Math.floor(Math.random() * replies.length)]
             
-// Now we create the reply - the handle + a random reply from our set of predefined replies + the instructions on how to quit
-var response = '@' + screenName + ' ' + replies[Math.floor(Math.random() * replies.length)]
-        
     T.post('statuses/update', {
         // To reply we need the id of tweet we're replying to.
-        in_reply_to_status_id:tweet.id_str,
+        in_reply_to_status_id: tweet.id_str,
         // Status is the content of the tweet, we set it to the response string we made above.
-        status:response
+        status: response
         // After we tweet we use a callback function to check if our tweet has been succesful.
     }, onTweeted)
 }
@@ -97,12 +96,12 @@ let isAsleep = false
 function onTweeted(err) {
     if (err !== undefined) {
         console.log(err)
-	if(err.code === 88){
-	    console.log('rate limit reached')
+        if(err.code === 88){
+            console.log('rate limit reached')
             T.post('account/update_profile', {
-	        name:'Qwitter Bot 💤',
-	        description: 'I\'ve helped too many people quit twitter and have reached my rate limit. Try again later.'
-	    }, onTweeted)
+                name:'Qwitter Bot 💤',
+                description: 'I\'ve helped too many people quit twitter and have reached my rate limit. Try again later.'
+            }, onTweeted)
             isAsleep = true
         }
     } else {
