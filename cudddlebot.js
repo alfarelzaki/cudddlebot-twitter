@@ -10,7 +10,8 @@ const termsToTrack = [
     'sedih banget gue',
     'stress gue',
     'gue sedih banget',
-    'hidup gue ancur'
+    'hidup gue ancur',
+    'ikbar sedih'
 ]
 
 const replies = [
@@ -29,7 +30,7 @@ T.get('account/verify_credentials', {
 
 function onAuthenticated(err){
     if (err) {
-        console.log(err)
+        console.error(err)
     } else {
         console.log('Authentication successful.')
         setInterval(streamNewTweet, 3000)
@@ -68,9 +69,10 @@ function isRetweet(tweet) {
 function sendReply(tweet) {
     // get the screen name of the twitter account - we'll need to prepend our response with this in order to reply.
     var screenName = tweet.user.screen_name
+    console.log(tweet.user.screen_name);
 
-    // Now we create the reply - the handle + a random reply from our set of predefined replies + the instructions on how to quit
-    var response = '@' + screenName + ' ' + replies[Math.floor(Math.random() * replies.length)]
+    // Now we create the reply - the handle + a random reply from our set of predefined replies
+    var response = `${replies[Math.floor(Math.random() * replies.length)]}`
 
     T.post('statuses/update', {
         // To reply we need the id of tweet we're replying to.
@@ -87,20 +89,24 @@ let isAsleep = false
 // Check if our tweet has been successful, if we've reached our rate limit, let people know that our bot is asleep.
 function onTweeted(err) {
     if (err !== undefined) {
-        console.error(err)
-        if(err.code === 88){
+        if (err.code === 88) {
             console.log('Tweet rate limit exceeded')
             T.post('account/update_profile', {
-                name:'Qwitter Bot 💤',
+                name: 'Qwitter Bot 💤',
                 description: 'I\'ve helped too many people quit twitter and have reached my rate limit. Try again later.'
             }, onTweeted)
             isAsleep = true
+        } else if (err.code === 187) {
+            console.log('Tweet duplicate, skipping thiw tweet')
+            // TODO: retry to send a reply with another replies
+        } else {
+            console.error(err)
         }
     } else {
         if(isAsleep) {
             isAsleep = false
             T.post('account/update_profile', {
-                name:'Qwitter Bot',
+                name: 'Qwitter Bot',
                 description: 'I\'m a bot that helps you quit twitter. I appear only when I am needed most'
             }, onTweeted)
         }
