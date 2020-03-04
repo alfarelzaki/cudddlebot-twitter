@@ -14,3 +14,5 @@ when you tweet something that include a term "merasa gagal" and "gue sedih", thi
     CONSUMER_KEY="YOUR_CONSUMER_KEY"
     CONSUMER_SECRET="YOUR_CONSUMER_SECRET"
     ```
+4. Install dependency using command `npm install`
+5. Run using command `npm start`
