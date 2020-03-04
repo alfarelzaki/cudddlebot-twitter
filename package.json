@@ -4,6 +4,7 @@
   "description": "a package for making a twitter bot to cheer up everyone!",
   "main": "cudddlebot.js",
   "scripts": {
+    "start": "node cudddlebot.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -16,6 +17,7 @@
   "author": "alfarelzaki",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "twit": "^2.2.11"
   }
 }
