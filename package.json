@@ -16,6 +16,7 @@
   "author": "alfarelzaki",
   "license": "ISC",
   "dependencies": {
+    "node-emoji": "^1.10.0",
     "twit": "^2.2.11"
   }
 }

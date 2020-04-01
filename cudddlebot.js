@@ -3,6 +3,9 @@ const twit = require('twit')
 const config = require('./config')
 var T = new twit(config)
 
+// dependency untuk mendukung emoji
+var emoji = require('node-emoji')
+
 T.get('account/verify_credentials', {
     include_entities: false,
     skip_status: true,
@@ -66,18 +69,23 @@ const replies = [
     'tenang, gak semuanya harus ada jawabannya sekarang -nkcthi',
     'kadang beberapa hal gak perlu dipusingin, cukup dijalanin dan diketawain -nkcthi',
     'gak masalah.., beberapa kali kalah, beberapa kali mengalah, sampai tiba suatu waktu, untuk bangun dan melawan, setidaknya, bertahan -nkcthi',
-    'nafas sebentar, apa sih yang dikejar -nkcthi'
-
+    'nafas sebentar, apa sih yang dikejar -nkcthi',
+    'eii udah gapapa, jangan sedih lagi yaa :smile:',
+    'eii jangan sedih terus, udah yaaa :smile:',
+    'eii aku masih ada disini kok, udah cup cup',
+    'eii I kno how u feel dear :cry:, please dont be sad anymore ok?'
 ]
         
 function sendReply(tweet){
         
-// get the screen name of the twitter account - we'll need to prepend our response with this in order to reply.
-var screenName = tweet.user.screen_name
+    // get the screen name of the twitter account - we'll need to prepend our response with this in order to reply.
+    var screenName = tweet.user.screen_name
+
+    var body = emoji.emojify(replies[Math.floor(Math.random() * replies.length)])
+                
+    // Now we create the reply - the handle + a random reply from our set of predefined replies + the instructions on how to quit
+    var response = '@' + screenName + ' ' + body
             
-// Now we create the reply - the handle + a random reply from our set of predefined replies + the instructions on how to quit
-var response = '@' + screenName + ' ' + replies[Math.floor(Math.random() * replies.length)]
-        
     T.post('statuses/update', {
         // To reply we need the id of tweet we're replying to.
         in_reply_to_status_id:tweet.id_str,
